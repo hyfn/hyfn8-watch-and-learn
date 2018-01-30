@@ -32,10 +32,15 @@ Concretely, a higher-order component is a function that takes a component and re
 #### Redux Connect
 
 The redux connect method is actually a HOF.
-It's output is a HOC that connects the component into the store.
-
 ```javascript
-connect(mapStateToProps, mapDispatchToProps)(CreateCampaignFormExport) connect.
+connect(mapStateToProps, mapDispatchToProps)(CreateCampaignForm).
+```
+
+It is a function that returns another function.
+The returned function is a HOC, which returns a component that is connected to the Redux store.
+```javascript
+hoc = connect(mapStateToProps, mapDispatchToProps)
+connectComponent = hoc(CreateCampaignForm)
 ```
 
 ---
