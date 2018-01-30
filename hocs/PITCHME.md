@@ -13,8 +13,8 @@ HOCs are useful when you want to reuse a component logic.
 ---
 
 ### Resources:
-* [React Docs](https://reactjs.org/docs/higher-order-components.html
-)
+* React Docs
+    - [Higher Order Components](https://reactjs.org/docs/higher-order-components.html)
 * React Patterns:
     - [react-component-patterns](https://levelup.gitconnected.com/react-component-patterns-ab1f09be2c82)
     - [React Patterns](https://github.com/chantastic/reactpatterns.com#higher-order-component)
