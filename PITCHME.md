@@ -5,7 +5,9 @@ In order to start your own slideshow:
 * Create a new folder under the repos root directory (call it my_folder_name)
 * Add your PITCHME files in there.
 
-The slideshow will then be available [here](https://gitpitch.com/hyfn/hyfn8-watch-and-learn/my_branch_name?p=my_folder_name)
+The slideshow will then be available on:
+
+https://gitpitch.com/hyfn/hyfn8-watch-and-learn/my_branch_name?p=my_folder_name
 
 ---
 
