@@ -273,7 +273,7 @@ const myHoc = (WrappedComponent) =>
 
 There are three patterns in React that are meant to be used in case that you want to decouple generic logic.
 
-Those patterns are **Render Props, Function as Child and HOCs**. Each of them has its own uses cases plus pros and cons.
+Those patterns are **Render Props, Function as Child, and HOCs**. Each of them has its own uses cases plus pros and cons.
 
 See the [Advanced React Patterns](https://medium.com/@jonatan_salas/advanced-react-patterns-lets-talk-about-render-props-function-as-child-and-hocs-c0cc4b5d6797) link in the resources section for additional information.
 
@@ -307,14 +307,20 @@ Instead, apply HOCs outside the component definition so that the resulting compo
 
 * Static Methods Must Be Copied Over
 
-When you apply a HOC to a component, though, the original component is wrapped with a container component. That means the new component does not have any of the static methods of the original component.
+When you apply a HOC to a component, the original component is wrapped with a container component. That means the new component does not have any of the static methods of the original component.
 
-* Refs Aren’t Passed Through
+```
+// Define a static method
+WrappedComponent.staticMethod = function() {/*...*/}
+// Now apply a HOC
+const EnhancedComponent = enhance(WrappedComponent);
 
-While the convention for higher-order components is to pass through all props to the wrapped component, it’s not possible to pass through refs. That’s because ref is not really a prop — like key, it’s handled specially by React. If you add a ref to an element whose component is the result of a HOC, the ref refers to an instance of the outermost container component, not the wrapped component.
+// The enhanced component has no static method
+typeof EnhancedComponent.staticMethod === 'undefined' // true
+```
 
-Basically just remember that the HOC is DIFFERENT than the wrapped component and so props, refs, and static methods **DO NOT transfer automatically!**
 
+Basically just remember that the component returned from the HOC is DIFFERENT than the wrapped component and so props, refs, and static methods **DO NOT transfer automatically!** between wrapped component and its wrapper.
 ---
 
 You may have noticed similarities between HOCs and a pattern called container components.
