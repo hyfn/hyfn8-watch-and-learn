@@ -124,7 +124,7 @@ Class Menu extends React.Component {
 Our HOC will handle the toggle functionality.
 
 ```
-makeToggleable = (Clickable) => {
+const makeToggleable = (Clickable) => {
  return class extends React.Component {
     constructor() {
         super()
@@ -228,11 +228,15 @@ In other words, connect is a higher-order function that returns a higher-order c
 * Convention: resist the temptation to modify a component’s prototype (or otherwise mutate it) inside a HOC. Instead of mutation, HOCs should use composition, by wrapping the input component in a container component.
 
 ```
-const logProps = (WrappedComponent) => {
+const myHoc = (WrappedComponent) => {
     /// BAD
     WrappedComponent.prototype.componentWillReceiveProps = (nextProps) => {
         ...
     }
+
+    // The fact that we're returning the original input is a hint
+    // that it has been mutated.
+    return WrappedComponent;
 }
 ```
 
@@ -241,24 +245,26 @@ const logProps = (WrappedComponent) => {
 Convention: Pass Unrelated Props Through to the Wrapped Component
 
 ```
-render() {
-  // Filter out extra props that are specific to this HOC and shouldn't be
-  // passed through
-  const { extraProp, ...passThroughProps } = this.props;
+const myHoc = (WrappedComponent) =>
+    class extends React.Component {
+        render() {
+            // Filter out extra props that are specific to this HOC and shouldn't be
+            // passed through
+            const { extraProp, ...passThroughProps } = this.props
 
-  // Inject props into the wrapped component. These are usually state values or
-  // instance methods.
-  const injectedProp = someStateOrInstanceMethod;
+            // Inject props into the wrapped component.
+            // These are usually state values or instance methods.
+             const injectedProp = someStateOrInstanceMethod
 
-  // Pass props to wrapped component
-  return (
-    <WrappedComponent
-      injectedProp={injectedProp}
-      {...passThroughProps}
-    />
-  );
-}
-
+            // Pass props to wrapped component
+             return (
+              <WrappedComponent
+                  injectedProp={injectedProp}
+                 {...passThroughProps}
+                />
+            )
+        }
+    }
 ```
 
 ---
