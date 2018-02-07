@@ -74,7 +74,7 @@ const ConnectedGreeting = connectMyComponent(Greeting)
 
 ---
 
-Note that you could also pass in as many arguments as you want to HOC to perhaps control how the data gets fetched, and thus make your HOC more reusable.
+Note that you could also pass in as many arguments as you want to the HOC. For example in order to control how the data gets fetched, and thus make your HOC more reusable.
 
 ```
 // This function takes a component...
@@ -162,17 +162,17 @@ Class MenuList extends React.Component {
     render() {
         return (
             <div>
-                <ToggleableMenu title='First Menu Item'>
+                <ToggleableMenu title='First Menu'>
                     <ol>
                         <li>Toggleable list item 1</li>
                         <li>Toggleable list item 2</li>
                         <li>Toggleable list item 3</li>
                     </ol>
                 </ToggleableMenu>
-                <ToggleableMenu title='Second Menu Item'>
+                <ToggleableMenu title='Second Menu'>
                     <div>Toggleable Div</div>
                 </ToggleableMenu>
-                <ToggleableMenu title='Third Menu Item'>
+                <ToggleableMenu title='Third Menu'>
                     <img src="myImage.jpg" alt="Toggleable Image">
                 </ToggleableMenu>
             </div>
@@ -226,6 +226,15 @@ In other words, connect is a higher-order function that returns a higher-order c
 ---
 
 * Convention: resist the temptation to modify a component’s prototype (or otherwise mutate it) inside a HOC. Instead of mutation, HOCs should use composition, by wrapping the input component in a container component.
+
+```
+const logProps = (WrappedComponent) => {
+    /// BAD
+    WrappedComponent.prototype.componentWillReceiveProps = (nextProps) => {
+        ...
+    }
+}
+```
 
 ---
 
