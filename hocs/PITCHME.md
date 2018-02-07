@@ -27,13 +27,21 @@ A HOC composes the original component (conventionally called the wrapped/compose
 
 #### Example 1: Hydrate component with data.
 
+This stateless functional component does not want to concern itself with any data fetching.
+
 ```
-const Greeting = ({ name }) => {
+const Greeting = ({ name, description }) => {
   if (!name) { return <div>Connecting...</div> }
 
-  return <div>Hi {name}!</div>
+  return <div>Hi {name}! You are {description}</div>
 }
+```
 
+---
+
+Our HOC will handle that.
+
+```
 const connectMyComponent = ComposedComponent =>
   class extends React.Component {
     constructor() {
@@ -57,9 +65,11 @@ const connectMyComponent = ComposedComponent =>
   }
 ```
 
+
 Then to use:
 ```
-const ConnectedComponent = connectMyComponent(Greeting)
+const ConnectedGreeting = connectMyComponent(Greeting)
+<ConnectedGreeting description='awesome' />
 ```
 
 ---
@@ -68,7 +78,7 @@ Note that you could also pass in as many arguments as you want to HOC to perhaps
 
 ```
 // This function takes a component...
-withSubscription = (WrappedComponent, grabDataFunc) => {
+const withSubscription = (WrappedComponent, grabDataFunc) => {
   // ...and returns another component...
   return class extends React.Component {
     constructor(props) {
