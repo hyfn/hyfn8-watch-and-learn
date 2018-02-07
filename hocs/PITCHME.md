@@ -25,23 +25,7 @@ A HOC composes the original component (conventionally called the wrapped/compose
 
 ---
 
-#### Example 1: Make a simple component toggleable.
-
-```
-Class ToggleableMenu extends React.Component {
-    render() {
-        return (
-            <div onclick={this.props.onclick}>
-                <h1>{this.props.title}</h1>
-            </div>
-        )
-    }
-}
-```
-
----
-
-#### Example 2: Hydrate component with data.
+#### Example 1: Hydrate component with data.
 
 ```
 const Greeting = ({ name }) => {
@@ -104,6 +88,125 @@ withSubscription = (WrappedComponent, grabDataFunc) => {
 }
 ```
 
+---
+
+#### Example 2: Make a simple component toggleable.
+
+Step 1: Create our HOC.
+
+```
+makeToggleable = (Clickable) => {
+ return class extends React.Component {
+    constructor() {
+        super()
+        this.state = { show: false }
+    }
+
+    toggle = () => {
+        this.setState({ show: !this.state.show })
+    }
+
+    render() {
+        return (
+            <div>
+                <Clickable
+                    {...this.props}
+                    onclick={this.toggle}
+                />
+                {this.state.show && this.props.children}
+            </div>
+        )
+    }
+ }
+}
+```
+
+---
+
+Step 2: Create our wrapped/composed component.
+
+
+```
+Class MenuItem extends React.Component {
+    render() {
+        return (
+            <div onclick={this.props.onclick}>
+                <h1>{this.props.title}</h1>
+            </div>
+        )
+    }
+}
+```
+
+---
+
+
+Step 3: pass the wrapped component to the HOC.
+
+
+```
+const ToggleableMenuItem = makeToggleable(MenuItem)
+
+Class MenuItemList extends React.Component {
+    render() {
+        return (
+            <div>
+                <ToggleableMenuItem title='First Menu Item'>
+                    <p>Toggleable Content</p>
+                </ToggleableMenuItem>
+                <ToggleableMenuItem title='Second Menu Item'>
+                    <p>Another Toggleable Content</p>
+                </ToggleableMenuItem>
+                <ToggleableMenuItem title='Third Menu Item'>
+                    <p>Additional Toggleable Content</p>
+                </ToggleableMenuItem>
+            </div>
+        )
+    }
+}
+```
+
+---
+
+Note: the last example could have been made a little cleaner using the decorator syntax
+
+---
+```
+// This code is same as:
+// const ToggleableMenuItem = makeToggleable(MenuItem)
+
+@makeToggleable
+Class ToggleableMenuItem extends React.Component {
+    render() {
+        return (
+            <div onclick={this.props.onclick}>
+                <h1>{this.props.title}</h1>
+            </div>
+        )
+    }
+}
+```
+
+---
+```
+Class MenuItemList extends React.Component {
+    render() {
+        return (
+            <div>
+                <ToggleableMenuItem title='First Menu Item'>
+                    <p>Toggleable Content</p>
+                </ToggleableMenuItem>
+                <ToggleableMenuItem title='Second Menu Item'>
+                    <p>Another Toggleable Content</p>
+                </ToggleableMenuItem>
+                <ToggleableMenuItem title='Third Menu Item'>
+                    <p>Additional Toggleable Content</p>
+                </ToggleableMenuItem>
+            </div>
+        )
+    }
+}
+```
 ---
 
 #### Example 3: Redux Connect
