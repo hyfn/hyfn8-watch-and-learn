@@ -37,6 +37,8 @@ const Greeting = ({ name, description }) => {
 }
 ```
 
+---
+
 Our HOC will handle that.
 
 ```
@@ -64,7 +66,7 @@ const connectMyComponent = ComposedComponent =>
 ```
 
 
-Then to use:
+Then to use the HOC, pass it the `Greeting` component:
 ```
 const ConnectedGreeting = connectMyComponent(Greeting)
 <ConnectedGreeting description='awesome' />
@@ -100,7 +102,26 @@ const withSubscription = (WrappedComponent, grabDataFunc) => {
 
 #### Example 2: Make a simple component toggleable.
 
-Step 1: Create our HOC.
+---
+
+Let's say we want toggle the `props.children` of a component whenever a user clicks on that component.
+This `Menu` component does not want to concern itself with any toggle functionality.
+
+```
+Class Menu extends React.Component {
+    render() {
+        return (
+            <div onclick={this.props.onclick}>
+                <h1>{this.props.title}</h1>
+            </div>
+        )
+    }
+}
+```
+
+---
+
+Our HOC will handle the toggle functionality.
 
 ```
 makeToggleable = (Clickable) => {
@@ -129,45 +150,31 @@ makeToggleable = (Clickable) => {
 }
 ```
 
----
-
-Step 2: Create our wrapped/composed component.
-
-
-```
-Class MenuItem extends React.Component {
-    render() {
-        return (
-            <div onclick={this.props.onclick}>
-                <h1>{this.props.title}</h1>
-            </div>
-        )
-    }
-}
-```
 
 ---
 
-
-Step 3: pass the wrapped component to the HOC.
-
+Then to use the HOC, pass it the `Menu` component:
 
 ```
-const ToggleableMenuItem = makeToggleable(MenuItem)
+const ToggleableMenu = makeToggleable(Menu)
 
-Class MenuItemList extends React.Component {
+Class MenuList extends React.Component {
     render() {
         return (
             <div>
-                <ToggleableMenuItem title='First Menu Item'>
-                    <p>Toggleable Content</p>
-                </ToggleableMenuItem>
-                <ToggleableMenuItem title='Second Menu Item'>
-                    <p>Another Toggleable Content</p>
-                </ToggleableMenuItem>
-                <ToggleableMenuItem title='Third Menu Item'>
-                    <p>Additional Toggleable Content</p>
-                </ToggleableMenuItem>
+                <ToggleableMenu title='First Menu Item'>
+                    <ol>
+                        <li>Toggleable list item 1</li>
+                        <li>Toggleable list item 2</li>
+                        <li>Toggleable list item 3</li>
+                    </ol>
+                </ToggleableMenu>
+                <ToggleableMenu title='Second Menu Item'>
+                    <div>Toggleable Div</div>
+                </ToggleableMenu>
+                <ToggleableMenu title='Third Menu Item'>
+                    <img src="myImage.jpg" alt="Toggleable Image">
+                </ToggleableMenu>
             </div>
         )
     }
@@ -178,13 +185,12 @@ Class MenuItemList extends React.Component {
 
 Note: the last example could have been made a little cleaner using the decorator syntax
 
----
 ```
 // This code is same as:
-// const ToggleableMenuItem = makeToggleable(MenuItem)
+// const ToggleableMenu = makeToggleable(Menu)
 
 @makeToggleable
-Class ToggleableMenuItem extends React.Component {
+Class ToggleableMenu extends React.Component {
     render() {
         return (
             <div onclick={this.props.onclick}>
@@ -195,26 +201,6 @@ Class ToggleableMenuItem extends React.Component {
 }
 ```
 
----
-```
-Class MenuItemList extends React.Component {
-    render() {
-        return (
-            <div>
-                <ToggleableMenuItem title='First Menu Item'>
-                    <p>Toggleable Content</p>
-                </ToggleableMenuItem>
-                <ToggleableMenuItem title='Second Menu Item'>
-                    <p>Another Toggleable Content</p>
-                </ToggleableMenuItem>
-                <ToggleableMenuItem title='Third Menu Item'>
-                    <p>Additional Toggleable Content</p>
-                </ToggleableMenuItem>
-            </div>
-        )
-    }
-}
-```
 ---
 
 #### Example 3: Redux Connect
@@ -338,6 +324,9 @@ If you encapsulate logic and save results using internal component state, the co
 * Basic:
     - [react-component-patterns](https://levelup.gitconnected.com/react-component-patterns-ab1f09be2c82)
     - [React Patterns](https://github.com/chantastic/reactpatterns.com#higher-order-component)
+* Decorators:
+    - [HOC as decorators](https://medium.com/@mappmechanic/react-utility-higher-order-components-as-decorators-tc39-stage-2-9e9f3a17688a)
+    - [ES7 Decorators in ReactJS](https://medium.com/@jihdeh/es7-decorators-in-reactjs-22f701a678cd)
 * Advanced:
     - [Advanced React Patterns](https://medium.com/@jonatan_salas/advanced-react-patterns-lets-talk-about-render-props-function-as-child-and-hocs-c0cc4b5d6797)
     - [HOCs in depth](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e)
