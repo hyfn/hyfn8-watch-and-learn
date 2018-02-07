@@ -37,8 +37,6 @@ const Greeting = ({ name, description }) => {
 }
 ```
 
----
-
 Our HOC will handle that.
 
 ```
@@ -74,7 +72,7 @@ const ConnectedGreeting = connectMyComponent(Greeting)
 
 ---
 
-Note that you could also pass in as many arguments as you want to HOC to perhaps controller how the data gets fetched, and thus make your HOC more reusable.
+Note that you could also pass in as many arguments as you want to HOC to perhaps control how the data gets fetched, and thus make your HOC more reusable.
 
 ```
 // This function takes a component...
