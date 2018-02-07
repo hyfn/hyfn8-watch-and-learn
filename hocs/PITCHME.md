@@ -98,6 +98,17 @@ const withSubscription = (WrappedComponent, grabDataFunc) => {
 }
 ```
 
+
+---
+
+You may have noticed similarities between HOCs and a pattern called container components.
+Container components are part of a strategy of separating responsibility between high-level and low-level concerns.
+
+
+Containers manage things like subscriptions and state, and pass props to components that handle things like rendering UI.
+HOCs use containers as part of their implementation. You can think of HOCs as parameterized (take in arguments) container components.
+Basically HOCs are just generic containers, wrapped up in a function (that takes the wrapped component as an argument)
+
 ---
 
 #### Example 2: Make a simple component toggleable.
@@ -321,19 +332,14 @@ typeof EnhancedComponent.staticMethod === 'undefined' // true
 
 
 Basically just remember that the component returned from the HOC is DIFFERENT than the wrapped component and so props, refs, and static methods **DO NOT transfer automatically!** between wrapped component and its wrapper.
----
-
-You may have noticed similarities between HOCs and a pattern called container components.
-Container components are part of a strategy of separating responsibility between high-level and low-level concerns.
-Containers manage things like subscriptions and state, and pass props to components that handle things like rendering UI.
-HOCs use containers as part of their implementation. You can think of HOCs as parameterized (take in arguments) container components.
-Basically HOCs are just generic containers, wrapped up in a function (that takes the wrapped component as an argument)
 
 ---
 
 ### [Cons](https://medium.com/@jonatan_salas/advanced-react-patterns-lets-talk-about-render-props-function-as-child-and-hocs-c0cc4b5d6797)
 
 It adds to you a new component to your virtual DOM tree without knowing. Believe me, a lot of people didn’t notice this.
+
+NEED TO REVISE
 
 If you encapsulate logic and save results using internal component state, the component you wrap using a HOC will re-render fully. You may not want this, and to avoid this issue you will have to implement SCU.
 
