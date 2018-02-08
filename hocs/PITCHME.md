@@ -199,9 +199,9 @@ Class MenuList extends React.Component {
 
 ---
 
-#### Example 7
 
-Note: the last example could have been made a little cleaner using the decorator syntax
+Something the note.
+The last example could have been made a little cleaner using the decorator syntax:
 
 ```
 // This code is same as:
