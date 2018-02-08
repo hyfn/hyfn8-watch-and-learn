@@ -198,15 +198,10 @@ Class MenuList extends React.Component {
 ```
 
 ---
-
-
-Something the note.
+Something to note.
 The last example could have been made a little cleaner using the decorator syntax:
 
 ```
-// This code is same as:
-// const ToggleableMenu = makeToggleable(Menu)
-
 @makeToggleable
 Class ToggleableMenu extends React.Component {
     render() {
@@ -217,6 +212,11 @@ Class ToggleableMenu extends React.Component {
         )
     }
 }
+```
+
+Same as:
+```
+const ToggleableMenu = makeToggleable(Menu)
 ```
 
 ---
