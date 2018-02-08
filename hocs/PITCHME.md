@@ -216,6 +216,16 @@ Class ToggleableMenu extends React.Component {
 
 Same as:
 ```
+Class Menu extends React.Component {
+    render() {
+        return (
+            <div onclick={this.props.onclick}>
+                <h1>{this.props.title}</h1>
+            </div>
+        )
+    }
+}
+
 const ToggleableMenu = makeToggleable(Menu)
 ```
 
