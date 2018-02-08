@@ -327,7 +327,6 @@ render() {
 
 ```
 
----
 
 The problem here isn’t just about performance — remounting a component causes the state of that component and all of its children to be lost.
 
@@ -348,7 +347,6 @@ const EnhancedComponent = enhance(WrappedComponent);
 // The enhanced component has no static method
 typeof EnhancedComponent.staticMethod === 'undefined' // true
 ```
-
 
 Basically just remember that the component returned from the HOC is DIFFERENT than the wrapped component and so props, refs, and static methods **DO NOT transfer automatically** between wrapped component and its wrapper.
 
