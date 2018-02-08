@@ -11,13 +11,18 @@ Whereas a component transforms props into UI, a higher-order component transform
 
 A HOC composes the original component (conventionally called the wrapped/composed component) by wrapping it in a container component. A HOC is a pure function with zero side-effects.
 
+We should start using HOCs in our React Apps to abstract common functionalities and reduce code redundancy.
 ---
 
 ### Usage:
-* Provide data fetching to any number of stateless function components (perfect for adding logic inside componentDidMount/componentWillMount.)
-* Add functioality to a component (make toggleable).
+
+ NEED To REVISE
+
+* Control over Inputs, we can use HOCs in order to have control over the inputs passed to the composed component (example prop manipulation)
+* Establish Connection to a Store/API Service (perfect for adding logic inside componentDidMount/componentWillMount)
+* Add functioality to a component (example: make toggleable)
+* Intercept Rendering/Component Lifecycle Methods of wrapped component
 * Modify CSS of wrapped component
-* Manipulate props before passing them to wrapped component
 
 ---
 
@@ -25,7 +30,7 @@ A HOC composes the original component (conventionally called the wrapped/compose
 
 ---
 
-#### Example 1: Hydrate component with data.
+#### Example 1: Establish Connection to a Store/API Service
 
 This stateless functional component does not want to concern itself with any data fetching.
 
@@ -111,7 +116,7 @@ Basically HOCs are just generic containers, wrapped up in a function (that takes
 
 ---
 
-#### Example 2: Make a simple component toggleable.
+#### Example 2: Add functioality to a component (make toggleable)
 
 ---
 
@@ -193,6 +198,8 @@ Class MenuList extends React.Component {
 ```
 
 ---
+
+#### Example 7
 
 Note: the last example could have been made a little cleaner using the decorator syntax
 
@@ -294,6 +301,8 @@ See the [Advanced React Patterns](https://medium.com/@jonatan_salas/advanced-rea
 ### [Caveats](https://reactjs.org/docs/higher-order-components.html#caveats)
 
 ---
+* First and foremost, using HOCs adds a new component to your virtual DOM tree. Be aware of this.
+---
 
 * Don’t Use HOCs Inside the render Method
 
@@ -331,17 +340,7 @@ typeof EnhancedComponent.staticMethod === 'undefined' // true
 ```
 
 
-Basically just remember that the component returned from the HOC is DIFFERENT than the wrapped component and so props, refs, and static methods **DO NOT transfer automatically!** between wrapped component and its wrapper.
-
----
-
-### [Cons](https://medium.com/@jonatan_salas/advanced-react-patterns-lets-talk-about-render-props-function-as-child-and-hocs-c0cc4b5d6797)
-
-It adds to you a new component to your virtual DOM tree without knowing. Believe me, a lot of people didn’t notice this.
-
-NEED TO REVISE
-
-If you encapsulate logic and save results using internal component state, the component you wrap using a HOC will re-render fully. You may not want this, and to avoid this issue you will have to implement SCU.
+Basically just remember that the component returned from the HOC is DIFFERENT than the wrapped component and so props, refs, and static methods **DO NOT transfer automatically** between wrapped component and its wrapper.
 
 ---
 
