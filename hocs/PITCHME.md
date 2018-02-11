@@ -190,12 +190,12 @@ class Example extends React.Component {
 ```
 
 Now
-```
-<Example additionalProps={'some stuff'} />
+```javascript
+<Example additionalProps='some stuff' />
 ```
 is the same as:
-```
-<EnhancedComponent additionalProps={'some stuff'} />
+```javascript
+<EnhancedComponent additionalProps='some stuff' />
 ```
 ---
 
@@ -210,7 +210,7 @@ Basically HOCs are just generic containers, wrapped up in a function (that takes
 
 ---
 
-#### Example 3: Make Toggleable (Also State Abstraction)
+#### Example 3: Logic (and state) Abstraction: Make Toggleable
 
 ---
 
