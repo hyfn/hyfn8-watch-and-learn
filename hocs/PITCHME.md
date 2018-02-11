@@ -122,7 +122,9 @@ connect(mapStateToProps, mapDispatchToProps)(CreateCampaignForm)
 ```
 
 It is a function that returns another function.
-The returned function is a HOC, which returns a component that is connected to the Redux store.
+The returned function is a HOC.
+The HOC takes in a component and returns a new component that is connected to the Redux store.
+
 ```javascript
 hoc = connect(mapStateToProps, mapDispatchToProps)
 connectComponent = hoc(CreateCampaignForm)
@@ -139,7 +141,7 @@ In the following State Abstraction example we abstract the value and onChange ha
 
 ---
 
-```
+```javascript
 const enhanceComponent = (WrappedComponent) => {
   return class EnhancedComponent extends React.Component {
     constructor(props) {
@@ -164,7 +166,7 @@ const enhanceComponent = (WrappedComponent) => {
 
 You would use it like this
 
-```
+```javascript
 class Example extends React.Component {
   render() {
     return <input name="user_name" {...this.props.name}/>
@@ -172,7 +174,7 @@ class Example extends React.Component {
 }
 
 const EnhancedComponent = enhanceComponent(Example)
-<EnhancedComponent additionalProps={'some stuff'} />
+<EnhancedComponent additionalProps='some stuff' />
 ```
 ---
 Something to note.
