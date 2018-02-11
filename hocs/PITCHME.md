@@ -189,8 +189,14 @@ class Example extends React.Component {
 }
 ```
 
-Now `<Example additionalProps={'some stuff'} />` is the same as `<EnhancedComponent additionalProps={'some stuff'} />`
-
+Now
+```
+<Example additionalProps={'some stuff'} />
+```
+is the same as:
+```
+<EnhancedComponent additionalProps={'some stuff'} />
+```
 ---
 
 #### NOTE: CONTAINER COMPONENTS
