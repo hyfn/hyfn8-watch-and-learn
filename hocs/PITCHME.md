@@ -33,7 +33,7 @@ We should start using HOCs in our React Apps to abstract common functionalities 
 
 This stateless functional component does not want to concern itself with any data fetching.
 
-```
+```javascript
 const Greeting = ({ name, description }) => {
   if (!name) { return <div>Connecting...</div> }
 
@@ -45,7 +45,7 @@ const Greeting = ({ name, description }) => {
 
 Our HOC will handle that, and then will send the desired data to the wrapped component via props.
 
-```
+```javascript
 const connectMyComponent = ComposedComponent =>
   class extends React.Component {
     constructor() {
@@ -71,7 +71,7 @@ const connectMyComponent = ComposedComponent =>
 
 
 Then to use the HOC, pass it the `Greeting` component:
-```
+```javascript
 const ConnectedGreeting = connectMyComponent(Greeting)
 <ConnectedGreeting description='awesome' />
 ```
@@ -80,7 +80,7 @@ const ConnectedGreeting = connectMyComponent(Greeting)
 
 Note that you could also pass in as many arguments as you want to the HOC. For example in order to control how the data gets fetched, and thus make your HOC more reusable.
 
-```
+```javascript
 // This function takes a component...
 const withSubscription = (WrappedComponent, grabDataFunc) => {
   // ...and returns another component...
@@ -106,7 +106,7 @@ const withSubscription = (WrappedComponent, grabDataFunc) => {
 
 To to use:
 
-```
+```javascript
 const BookWithSubscription = withSubscription(< Book />, fetchBookData )
 const MagazineWithSubscription = withSubscription(< Magazine />, fetchMagazineData )
 const NewspaperWithSubscription = withSubscription(< Newspaper />, fetchNewspaperData )
