@@ -209,27 +209,9 @@ HOCs use containers as part of their implementation. You can think of HOCs as pa
 Basically HOCs are just generic containers, wrapped up in a function (that takes the wrapped component as an argument)
 
 ---
-
 #### Example 3: Logic (and state) Abstraction: Make Toggleable
-
-Let's say we want to toggle the `props.children` of a component whenever a user clicks on that component.
-Our `Menu` component here does not want to concern itself with any toggle functionality, nor with managing the toggle state.
-
-```javascript
-Class Menu extends React.Component {
-    render() {
-        return (
-            <div onclick={this.props.onclick}>
-                <h1>{this.props.title}</h1>
-            </div>
-        )
-    }
-}
-```
-
 ---
-
-Our HOC will handle the toggle functionality.
+Let's say we want to toggle the `props.children` of a component whenever a user clicks on that component. Let's create a HOC that will handle the toggle functionality.
 
 ```javascript
 const makeToggleable = (Clickable) => {
@@ -257,13 +239,32 @@ const makeToggleable = (Clickable) => {
  }
 }
 ```
+---
 
+Our `Menu` component will not have to concern itself with any toggle functionality or state management. Using the decorator syntax we have:
 
+```javascript
+@makeToggleable
+Class ToggleableMenu extends React.Component {
+    render() {
+        return (
+            <div onclick={this.props.onclick}>
+                <h1>{this.props.title}</h1>
+            </div>
+        )
+    }
+}
+```
+
+Same as:
+```javascript
+const ToggleableMenu = makeToggleable(RegularMenu)
+```
 ---
 
 Then to use the HOC, pass it the `Menu` component:
 
-```
+```javascript
 const ToggleableMenu = makeToggleable(Menu)
 
 Class MenuList extends React.Component {
@@ -288,38 +289,6 @@ Class MenuList extends React.Component {
     }
 }
 ```
-
----
-Using the decorator syntax:
-
-```
-@makeToggleable
-Class ToggleableMenu extends React.Component {
-    render() {
-        return (
-            <div onclick={this.props.onclick}>
-                <h1>{this.props.title}</h1>
-            </div>
-        )
-    }
-}
-```
-
-is the same as:
-```
-Class Menu extends React.Component {
-    render() {
-        return (
-            <div onclick={this.props.onclick}>
-                <h1>{this.props.title}</h1>
-            </div>
-        )
-    }
-}
-
-const ToggleableMenu = makeToggleable(Menu)
-```
-
 ---
 
 #### Example 4: Wrapping the WrappedComponent with other elements
