@@ -16,8 +16,6 @@ We should start using HOCs in our React Apps to abstract common functionalities 
 
 ### Usage:
 
- NEED To REVISE
-
 * Code reuse, logic abstraction (example: make generic component toggleable)
 * State abstraction and manipulation
 * Establish Connection to a Store/API Service (perfect for adding logic inside componentDidMount/componentWillMount)
@@ -88,7 +86,7 @@ const withSubscription = (WrappedComponent, grabDataFunc) => {
   // ...and returns another component...
   return class extends React.Component {
     constructor(props) {
-      super(props);
+      super(props)
 
       this.state = {
         data: grabDataFunc(props)
@@ -98,10 +96,20 @@ const withSubscription = (WrappedComponent, grabDataFunc) => {
     render() {
       // ... and renders the wrapped component with the fresh data!
       // Notice that we pass through any additional props
-      return <WrappedComponent data={this.state.data} {...this.props} />
+      return <WrappedComponent {...this.props} data={this.state.data} />
     }
   }
 }
+```
+
+---
+
+To to use:
+
+```
+const BookWithSubscription = withSubscription(< Book />, fetchBookData )
+const MagazineWithSubscription = withSubscription(< Magazine />, fetchMagazineData )
+const NewspaperWithSubscription = withSubscription(< Newspaper />, fetchNewspaperData )
 ```
 
 ---
