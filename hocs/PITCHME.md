@@ -212,14 +212,10 @@ Basically HOCs are just generic containers, wrapped up in a function (that takes
 
 #### Example 3: Logic (and state) Abstraction: Make Toggleable
 
----
-
 Let's say we want to toggle the `props.children` of a component whenever a user clicks on that component.
-This `Menu` component does not want to concern itself with any toggle functionality, or with managing the toggle state.
+Our `Menu` component here does not want to concern itself with any toggle functionality, nor with managing the toggle state.
 
----
-
-```
+```javascript
 Class Menu extends React.Component {
     render() {
         return (
@@ -235,7 +231,7 @@ Class Menu extends React.Component {
 
 Our HOC will handle the toggle functionality.
 
-```
+```javascript
 const makeToggleable = (Clickable) => {
  return class extends React.Component {
     constructor() {
