@@ -5,7 +5,7 @@
 ### Definition:
 A higher-order component (HOC) is an advanced technique in React for reusing component logic (alternative for Mixins pattern).
 
-Concretely, a higher-order component is a function that takes a component and returns a new component (with steroids).
+Concretely, a higher-order component is just a React component that wraps another component. It is usually implemented in the form of a function that takes a component and returns a new enhanced component.
 
 Whereas a component transforms props into UI, a higher-order component transforms a component into another component.
 
@@ -18,9 +18,10 @@ We should start using HOCs in our React Apps to abstract common functionalities 
 
  NEED To REVISE
 
-* Control over Inputs, we can use HOCs in order to have control over the inputs passed to the composed component (example prop manipulation)
+* Code reuse, logic abstraction (example: make generic component toggleable)
+* State abstraction and manipulation
 * Establish Connection to a Store/API Service (perfect for adding logic inside componentDidMount/componentWillMount)
-* Add functioality to a component (example: make toggleable)
+* Control over Inputs passed to the composed component. For example reading, adding, editing and removing the props that are being passed to the wrapped component.
 * Intercept Rendering/Component Lifecycle Methods of wrapped component
 * Modify CSS of wrapped component
 
@@ -44,7 +45,7 @@ const Greeting = ({ name, description }) => {
 
 ---
 
-Our HOC will handle that.
+Our HOC will handle that, and then will send the desired data to the wrapped component via props.
 
 ```
 const connectMyComponent = ComposedComponent =>
@@ -103,12 +104,89 @@ const withSubscription = (WrappedComponent, grabDataFunc) => {
 }
 ```
 
+---
+
+#### NOTE: REDUX CONNECT
+
+The redux `connect` method is actually a HOF.
+```javascript
+connect(mapStateToProps, mapDispatchToProps)(CreateCampaignForm)
+```
+
+It is a function that returns another function.
+The returned function is a HOC, which returns a component that is connected to the Redux store.
+```javascript
+hoc = connect(mapStateToProps, mapDispatchToProps)
+connectComponent = hoc(CreateCampaignForm)
+```
+
+In other words, connect is a higher-order function that returns a higher-order component!
 
 ---
 
-You may have noticed similarities between HOCs and a pattern called container components.
-Container components are part of a strategy of separating responsibility between high-level and low-level concerns.
+#### Example 2: State Abstraction
+We can abstract state by providing **props** and **callbacks** to the wrapped component, very similar to how smart components will deal with dumb components
 
+In the following State Abstraction example we abstract the value and onChange handler of the name input field.
+
+---
+
+```
+const enhanceComponent = (WrappedComponent) => {
+  return class EnhancedComponent extends React.Component {
+    constructor(props) {
+      super(props)
+      this.state = { name: '' }
+    }
+    onNameChange = (event) =>
+      this.setState({ name: event.target.value })
+
+    render() {
+      const newProps = {
+        name: {
+          value: this.state.name,
+          onChange: this.onNameChange
+        }
+      }
+      return <WrappedComponent {...this.props} {...newProps}/>
+    }
+  }
+}
+```
+
+You would use it like this
+
+```
+class Example extends React.Component {
+  render() {
+    return <input name="user_name" {...this.props.name}/>
+  }
+}
+
+const EnhancedComponent = enhanceComponent(Example)
+<EnhancedComponent additionalProps={'some stuff'} />
+```
+---
+Something to note.
+The last example could have been made a little cleaner using the decorator syntax:
+
+```
+@enhanceComponent
+class Example extends React.Component {
+  render() {
+    return <input name="user_name" {...this.props.name}/>
+  }
+}
+```
+
+Now `<Example additionalProps={'some stuff'} />` is the same as `<EnhancedComponent additionalProps={'some stuff'} />`
+
+---
+
+#### NOTE: CONTAINER COMPONENTS
+
+You may have noticed similarities between HOCs and the container components pattern.
+Container components are part of a strategy of separating responsibility between high-level and low-level concerns.
 
 Containers manage things like subscriptions and state, and pass props to components that handle things like rendering UI.
 HOCs use containers as part of their implementation. You can think of HOCs as parameterized (take in arguments) container components.
@@ -116,12 +194,14 @@ Basically HOCs are just generic containers, wrapped up in a function (that takes
 
 ---
 
-#### Example 2: Add functioality to a component (make toggleable)
+#### Example 3: Make Toggleable (Also State Abstraction)
 
 ---
 
-Let's say we want toggle the `props.children` of a component whenever a user clicks on that component.
-This `Menu` component does not want to concern itself with any toggle functionality.
+Let's say we want to toggle the `props.children` of a component whenever a user clicks on that component.
+This `Menu` component does not want to concern itself with any toggle functionality, or with managing the toggle state.
+
+---
 
 ```
 Class Menu extends React.Component {
@@ -198,8 +278,7 @@ Class MenuList extends React.Component {
 ```
 
 ---
-Something to note.
-The last example could have been made a little cleaner using the decorator syntax:
+Using the decorator syntax:
 
 ```
 @makeToggleable
@@ -214,7 +293,7 @@ Class ToggleableMenu extends React.Component {
 }
 ```
 
-Same as:
+is the same as:
 ```
 Class Menu extends React.Component {
     render() {
@@ -231,22 +310,24 @@ const ToggleableMenu = makeToggleable(Menu)
 
 ---
 
-#### Example 3: Redux Connect
+#### Example 4: Wrapping the WrappedComponent with other elements
 
-The redux `connect` method is actually a HOF.
-```javascript
-connect(mapStateToProps, mapDispatchToProps)(CreateCampaignForm)
+You can wrap the WrappedComponent with other components and elements for styling, layout or other purposes.
+Example: Wrapping for styling purposes
+
 ```
-
-It is a function that returns another function.
-The returned function is a HOC, which returns a component that is connected to the Redux store.
-```javascript
-hoc = connect(mapStateToProps, mapDispatchToProps)
-connectComponent = hoc(CreateCampaignForm)
+const cssHOC = (WrappedComponent) => {
+  return class StyledComponent extends React.Component {
+    render() {
+      return (
+        <div style={{display: 'block'}}>
+          <WrappedComponent {...this.props}/>
+        </div>
+      )
+    }
+  }
+}
 ```
-
-In other words, connect is a higher-order function that returns a higher-order component!
-
 ---
 
 ### Convention
@@ -352,9 +433,18 @@ Basically just remember that the component returned from the HOC is DIFFERENT th
 
 ---
 
+NEED TO REVISE
+### Potential Uses For Hyfn:
+
+* CSS HOCs to maintain styling consistency
+...
+
+---
+
 ### Resources:
 * React Docs
     - [Higher Order Components](https://reactjs.org/docs/higher-order-components.html)
+    - [React Reconciliation](https://reactjs.org/docs/reconciliation.html)
 * Basic:
     - [react-component-patterns](https://levelup.gitconnected.com/react-component-patterns-ab1f09be2c82)
     - [React Patterns](https://github.com/chantastic/reactpatterns.com#higher-order-component)
