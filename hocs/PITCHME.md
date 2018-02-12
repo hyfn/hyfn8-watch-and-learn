@@ -319,6 +319,8 @@ const cssHOC = (WrappedComponent) => {
     }
   }
 }
+
+(This HOC does not really fall into the category of a Props Proxy HOC, but I thought it is worth sharing this type of HOCs example as well)
 ```
 ---
 ### Inheritance Inversion HOCS
