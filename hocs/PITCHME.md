@@ -131,8 +131,9 @@ The redux `connect` method is actually a HOF.
 connect(mapStateToProps, mapDispatchToProps)(CreateCampaignForm)
 ```
 
-It is a function that returns another function.
-The returned function is a HOC.
+connect is a function that returns another function. The returned function is a HOC.
+
+
 The HOC takes in a component and returns a new component that is connected to the Redux store.
 
 ```javascript
