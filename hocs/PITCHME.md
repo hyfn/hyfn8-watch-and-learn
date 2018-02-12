@@ -426,17 +426,6 @@ const myHoc = (WrappedComponent) =>
 
 ---
 
-### Note!
-
-There are three patterns in React that are meant to be used in case that you want to decouple generic logic.
-
-Those patterns are **Render Props, Function as Child, and HOCs**. Each of them has its own uses cases plus pros and cons.
-
-See the [Advanced React Patterns](https://medium.com/@jonatan_salas/advanced-react-patterns-lets-talk-about-render-props-function-as-child-and-hocs-c0cc4b5d6797) link in the resources section for additional information.
-
----
-
-
 ### [Caveats](https://reactjs.org/docs/higher-order-components.html#caveats)
 
 ---
@@ -449,9 +438,9 @@ See the [Advanced React Patterns](https://medium.com/@jonatan_salas/advanced-rea
 render() {
   // A new version of EnhancedComponent is created on every render
   // EnhancedComponent1 !== EnhancedComponent2
-  const EnhancedComponent = enhance(MyComponent);
+  const EnhancedComponent = enhance(MyComponent)
   // That causes the entire subtree to unmount/remount each time!
-  return <EnhancedComponent />;
+  return <EnhancedComponent />
 }
 
 ```
@@ -471,7 +460,7 @@ When you apply a HOC to a component, the original component is wrapped with a co
 // Define a static method
 WrappedComponent.staticMethod = function() {/*...*/}
 // Now apply a HOC
-const EnhancedComponent = enhance(WrappedComponent);
+const EnhancedComponent = enhance(WrappedComponent)
 
 // The enhanced component has no static method
 typeof EnhancedComponent.staticMethod === 'undefined' // true
@@ -485,9 +474,9 @@ Basically just remember that the component returned from the HOC is DIFFERENT th
 
 * CSS HOCs in order to maintain styling consistency across the platforms
 * User Permissions HOCs that restrict rendering according to access permissions.
-*
 
 Any functinoality that could be reusable between the subapps!
+
 ---
 
 ### Resources:
