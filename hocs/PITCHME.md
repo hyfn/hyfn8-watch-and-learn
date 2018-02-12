@@ -7,11 +7,13 @@ A higher-order component (HOC) is an advanced technique in React for reusing com
 
 Concretely, a higher-order component is just a React component that wraps another component. It is usually implemented in the form of a function that takes a component and returns a new enhanced component.
 
+A HOC composes the original component (conventionally called the wrapped/composed component) by wrapping it in a container component.
+
 Whereas a component transforms props into UI, a higher-order component transforms a component into another component.
 
-A HOC composes the original component (conventionally called the wrapped/composed component) by wrapping it in a container component. A HOC is a pure function with zero side-effects.
+---
 
-We should start using HOCs in our React Apps to abstract common functionalities and reduce code redundancy.
+We should consider to start using HOCs in our React Apps to abstract common functionalities and reduce code redundancy.
 ---
 
 ### Usage:
@@ -21,15 +23,15 @@ We should start using HOCs in our React Apps to abstract common functionalities 
 * Establish Connection to a Store/API Service (perfect for adding logic inside componentDidMount/componentWillMount)
 * Control over Inputs passed to the composed component. For example adding, restricting, and transforming the props that are being passed to the wrapped component.
 * Intercept Rendering/Component Lifecycle Methods of wrapped component
-* Modify CSS of wrapped component
+* Add CSS styling to wrapped component
 
 ---
-One of the articles, ()[], divides HOCs to 2 types:
+One of the articles: [HOCs in depth](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e), divides HOCs to 2 geneal types:
 
 1. Props Proxy: The HOC manipulates the props being passed to the WrappedComponent.
 2. Inheritance Inversion: The HOC extends the WrappedComponent.
 
-We will mostly focus on Props Proxy HOCs, and only touch briefly on Inheritance Inversion HOCs.
+We will mostly focus on Props Proxy HOCs, and only introduce the Inheritance Inversion HOCs.
 ---
 
 ### Props Proxy HOCS Examples
@@ -368,31 +370,6 @@ const iiHOC = (WrappedComponent) => {
 ```
 
 ---
-### Manipulating State
-
-It is called Render Highjacking because the HOC takes control of the render output of the WrappedComponent and can do all sorts of stuff with it.
----
-
-### Manipulating State Example: Debugging
-
-```javascript
-
-const iiHOC = (WrappedComponent) => {
-  return class Enhancer extends WrappedComponent {
-    render() {
-      if (this.props.loggedIn) {
-        return super.render()
-      } else {
-        return null
-      }
-    }
-  }
-}
-
-(You cannot edit or create props of the WrappedComponent instance, because a React Component cannot edit the props it receives, but you can change the props of the elements that are outputted from the render method.)
-
----
-
 
 ### Convention
 
