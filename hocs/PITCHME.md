@@ -304,7 +304,7 @@ Class MenuList extends React.Component {
 ```
 ---
 
-### Example 4: Wrapping the Wrapped Component with other elements
+### Example 4: Add Styling
 
 You can wrap the WrappedComponent with other components and elements for styling, layout or other purposes.
 
