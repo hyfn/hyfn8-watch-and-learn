@@ -31,7 +31,9 @@ One of the articles: [HOCs in depth](https://medium.com/@franleplant/react-highe
 1. Props Proxy: The HOC manipulates the props being passed to the WrappedComponent.
 2. Inheritance Inversion: The HOC extends the WrappedComponent.
 
-In this presentation, we will mostly focus on Props Proxy HOCs, and only introduce the Inheritance Inversion HOCs briefly.
+In this presentation, we will focus on Props Proxy HOCs because that is the most straight forward usage of HOCs (most online examples as well as the React docs show these type of HOCs).
+
+We will only introduce the Inheritance Inversion HOCs briefly.
 ---
 
 ### Props Proxy HOCS Examples
@@ -321,7 +323,7 @@ const cssHOC = (WrappedComponent) => {
 }
 ```
 
-(This HOC does not really fall into the category of a Props Proxy HOC, but I thought it is worth sharing this type of HOCs example as well)
+(This HOC does not really fall into the category of a Props Proxy HOC, but I thought it is worth sharing this type of HOC example as well)
 
 ---
 ### Inheritance Inversion HOCS
