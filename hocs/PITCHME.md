@@ -19,17 +19,24 @@ We should start using HOCs in our React Apps to abstract common functionalities 
 * Code reuse, logic abstraction (example: make generic component toggleable)
 * State abstraction and manipulation
 * Establish Connection to a Store/API Service (perfect for adding logic inside componentDidMount/componentWillMount)
-* Control over Inputs passed to the composed component. For example reading, adding, editing and removing the props that are being passed to the wrapped component.
+* Control over Inputs passed to the composed component. For example adding, restricting, and transforming the props that are being passed to the wrapped component.
 * Intercept Rendering/Component Lifecycle Methods of wrapped component
 * Modify CSS of wrapped component
 
 ---
+One of the articles, ()[], divides HOCs to 2 types:
 
-### Examples
+1. Props Proxy: The HOC manipulates the props being passed to the WrappedComponent.
+2. Inheritance Inversion: The HOC extends the WrappedComponent.
+
+We will mostly focus on Props Proxy HOCs, and only touch briefly on Inheritance Inversion HOCs.
+---
+
+### Props Proxy HOCS Examples
 
 ---
 
-#### Example 1: Establish Connection to a Store/API Service
+### Example 1: Establish Connection to a Store/API Service
 
 This stateless functional component does not want to concern itself with any data fetching.
 
@@ -114,7 +121,7 @@ const NewspaperWithSubscription = withSubscription(< Newspaper />, fetchNewspape
 
 ---
 
-#### NOTE: REDUX CONNECT
+### NOTE: REDUX CONNECT
 
 The redux `connect` method is actually a HOF.
 ```javascript
@@ -134,7 +141,7 @@ In other words, connect is a higher-order function that returns a higher-order c
 
 ---
 
-#### Example 2: State Abstraction
+### Example 2: State Abstraction
 We can abstract state by providing **props** and **callbacks** to the wrapped component, very similar to how smart components will deal with dumb components
 
 In the following State Abstraction example we abstract the value and onChange handler of the name input field.
@@ -178,7 +185,7 @@ const EnhancedComponent = enhanceComponent(Example)
 ```
 ---
 Something to note.
-The last example could have been made a little cleaner using the decorator syntax:
+The last example could have been made a little cleaner using the decorator syntax. The decorator syntax gives us an elegnant and simple way to add HOC to any component.
 
 ```
 @enhanceComponent
@@ -199,7 +206,7 @@ is the same as:
 ```
 ---
 
-#### NOTE: CONTAINER COMPONENTS
+### NOTE: CONTAINER COMPONENTS
 
 You may have noticed similarities between HOCs and the container components pattern.
 Container components are part of a strategy of separating responsibility between high-level and low-level concerns.
@@ -209,7 +216,7 @@ HOCs use containers as part of their implementation. You can think of HOCs as pa
 Basically HOCs are just generic containers, wrapped up in a function (that takes the wrapped component as an argument)
 
 ---
-#### Example 3: Logic (and state) Abstraction: Make Toggleable
+### Example 3: Logic (and state) Abstraction: Make Toggleable
 ---
 Let's say we want to toggle the `props.children` of a component whenever a user clicks on that component. Let's create a HOC that will handle the toggle functionality.
 
@@ -241,7 +248,9 @@ const makeToggleable = (Clickable) => {
 ```
 ---
 
-Our `Menu` component will not have to concern itself with any toggle functionality or state management. Using the decorator syntax we have:
+Our `Menu` component will not have to concern itself with any toggle functionality or state management since the HOC already handles those.
+
+Using the decorator syntax we have:
 
 ```javascript
 @makeToggleable
@@ -262,11 +271,9 @@ const ToggleableMenu = makeToggleable(RegularMenu)
 ```
 ---
 
-Then to use the HOC, pass it the `Menu` component:
+Then to use it:
 
 ```javascript
-const ToggleableMenu = makeToggleable(Menu)
-
 Class MenuList extends React.Component {
     render() {
         return (
@@ -291,11 +298,11 @@ Class MenuList extends React.Component {
 ```
 ---
 
-#### Example 4: Wrapping the WrappedComponent with other elements
+### Example 4: Wrapping the Wrapped Component with other elements
 
 You can wrap the WrappedComponent with other components and elements for styling, layout or other purposes.
-Example: Wrapping for styling purposes
 
+Example: Wrapping for styling purposes
 ```
 const cssHOC = (WrappedComponent) => {
   return class StyledComponent extends React.Component {
@@ -310,6 +317,82 @@ const cssHOC = (WrappedComponent) => {
 }
 ```
 ---
+### Inheritance Inversion HOCS
+
+```javascript
+const iiHOC = (WrappedComponent) => {
+  return class Enhancer extends WrappedComponent {
+    render() {
+      return super.render()
+    }
+  }
+}
+```
+
+Inheritance Inversion allows the HOC to have access to the WrappedComponent instance via this, which means it has access to the state, props, component lifecycle hooks and the render method.
+
+Remember to always call super.[lifecycleHook] so you don't break the WrappedComponent.
+---
+
+What can you do with Inheritance Inversion?
+
+* Render Highjacking
+* Manipulating state
+
+---
+### Render Hijacking
+
+It is called Render Highjacking because the HOC takes control of the render output of the WrappedComponent and can do all sorts of stuff with it.
+
+render refers to the WrappedComponent.render method
+---
+
+### Render Hijacking Example: Conditional rendering
+
+```javascript
+
+const iiHOC = (WrappedComponent) => {
+  return class Enhancer extends WrappedComponent {
+    render() {
+      if (this.props.loggedIn) {
+        return super.render()
+      } else {
+        return null
+      }
+    }
+  }
+}
+
+(You cannot edit or create props of the WrappedComponent instance, because a React Component cannot edit the props it receives, but you can change the props of the elements that are outputted from the render method.)
+
+```
+
+---
+### Manipulating State
+
+It is called Render Highjacking because the HOC takes control of the render output of the WrappedComponent and can do all sorts of stuff with it.
+---
+
+### Manipulating State Example: Debugging
+
+```javascript
+
+const iiHOC = (WrappedComponent) => {
+  return class Enhancer extends WrappedComponent {
+    render() {
+      if (this.props.loggedIn) {
+        return super.render()
+      } else {
+        return null
+      }
+    }
+  }
+}
+
+(You cannot edit or create props of the WrappedComponent instance, because a React Component cannot edit the props it receives, but you can change the props of the elements that are outputted from the render method.)
+
+---
+
 
 ### Convention
 
@@ -359,7 +442,7 @@ const myHoc = (WrappedComponent) =>
 
 ---
 
-#### Note!
+### Note!
 
 There are three patterns in React that are meant to be used in case that you want to decouple generic logic.
 
@@ -414,12 +497,13 @@ Basically just remember that the component returned from the HOC is DIFFERENT th
 
 ---
 
-NEED TO REVISE
 ### Potential Uses For Hyfn:
 
-* CSS HOCs to maintain styling consistency
-...
+* CSS HOCs in order to maintain styling consistency across the platforms
+* User Permissions HOCs that restrict rendering according to access permissions.
+*
 
+Any functinoality that could be reusable between the subapps!
 ---
 
 ### Resources:
