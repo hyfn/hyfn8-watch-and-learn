@@ -374,6 +374,10 @@ const iiHOC = (WrappedComponent) => {
 
 ---
 
+See the [HOCs in depth](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e) article for examples of Manipulating State with Inheritance Inversion HOCs.
+
+---
+
 ### Convention
 
 ---
