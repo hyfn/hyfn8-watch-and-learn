@@ -31,7 +31,7 @@ One of the articles: [HOCs in depth](https://medium.com/@franleplant/react-highe
 1. Props Proxy: The HOC manipulates the props being passed to the WrappedComponent.
 2. Inheritance Inversion: The HOC extends the WrappedComponent.
 
-We will mostly focus on Props Proxy HOCs, and only introduce the Inheritance Inversion HOCs.
+In this presentation, we will mostly focus on Props Proxy HOCs, and only introduce the Inheritance Inversion HOCs briefly.
 ---
 
 ### Props Proxy HOCS Examples
@@ -94,12 +94,13 @@ Note that you could also pass in as many arguments as you want to the HOC. For e
 const withSubscription = (WrappedComponent, grabDataFunc) => {
   // ...and returns another component...
   return class extends React.Component {
-    constructor(props) {
-      super(props)
+    constructor() {
+      super()
+      this.state = { data: null }
+    }
 
-      this.state = {
-        data: grabDataFunc(props)
-      };
+    componentDidMount() {
+      this.setState({ data: grabDataFunc(this.props) })
     }
 
     render() {
