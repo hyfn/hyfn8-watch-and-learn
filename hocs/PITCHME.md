@@ -368,10 +368,9 @@ const iiHOC = (WrappedComponent) => {
     }
   }
 }
+```
 
 (You cannot edit or create props of the WrappedComponent instance, because a React Component cannot edit the props it receives, but you can change the props of the elements that are outputted from the render method.)
-
-```
 
 ---
 
