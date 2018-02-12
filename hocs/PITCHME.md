@@ -128,7 +128,7 @@ const NewspaperWithSubscription = withSubscription(< Newspaper />, fetchNewspape
 
 The redux `connect` method is actually a HOF.
 ```javascript
-connect(mapStateToProps, mapDispatchToProps)(CreateCampaignForm)
+const connectComponent = connect(mapStateToProps, mapDispatchToProps)(CreateCampaignForm)
 ```
 
 connect is a function that returns another function. The returned function is a HOC.
@@ -137,8 +137,8 @@ connect is a function that returns another function. The returned function is a 
 The HOC takes in a component and returns a new component that is connected to the Redux store.
 
 ```javascript
-hoc = connect(mapStateToProps, mapDispatchToProps)
-connectComponent = hoc(CreateCampaignForm)
+const hoc = connect(mapStateToProps, mapDispatchToProps)
+const connectComponent = hoc(CreateCampaignForm)
 ```
 
 In other words, connect is a higher-order function that returns a higher-order component!
