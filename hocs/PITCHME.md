@@ -319,9 +319,10 @@ const cssHOC = (WrappedComponent) => {
     }
   }
 }
+```
 
 (This HOC does not really fall into the category of a Props Proxy HOC, but I thought it is worth sharing this type of HOCs example as well)
-```
+
 ---
 ### Inheritance Inversion HOCS
 
@@ -341,9 +342,8 @@ Remember to always call super.[lifecycleHook] so you don't break the WrappedComp
 ---
 
 What can you do with Inheritance Inversion?
-
-* Render Highjacking
-* Manipulating state
+- Render Highjacking
+- Manipulating state
 
 ---
 ### Render Hijacking
